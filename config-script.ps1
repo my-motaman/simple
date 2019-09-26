@@ -1,4 +1,4 @@
-winrm quickconfig -q
+Enable-PSRemoting
 
 New-SMBShare –Name "Shared" –Path "D:\" –FullAccess "Everyone"
 

@@ -1,13 +1,41 @@
-Enable-PSRemoting
+param
+(
+    [string] $hostname,
+    [string] $protocol
+)
+$winrmHttpsPort=5986
 
-New-SMBShare –Name "Shared" –Path "D:\" –FullAccess "Everyone"
+Set-Item wsman:\localhost\Client\TrustedHosts * -Force
+Get-Item wsman:\localhost\Client\TrustedHosts
 
-$url = "https://go.microsoft.com/fwlink/?LinkId=287166"
-$output = "$PSScriptRoot\WebPlatformInstaller_amd64_en-US.msi"
-$start_time = Get-Date
+winrm set winrm/config '@{MaxEnvelopeSizekb = "8192"}'
 
-Invoke-WebRequest -Uri $url -OutFile $output
-Write-Output "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)"
-C:\WebPlatformInstaller_amd64_en-US.msi /quiet
+#Configure-WinRMHttpsListener
+#Delete-WinRMListener
+$config = winrm enumerate winrm/config/listener
+    foreach($conf in $config)
+    {
+        if($conf.Contains("HTTPS"))
+        {
+            winrm delete winrm/config/Listener?Address=*+Transport=HTTPS
+            break
+        }
+    }
 
-&"C:\Program Files\Microsoft\Web Platform Installer\WebpiCmd.exe" /Install /Products:WDeploy /AcceptEula
+# Create a test certificate
+$thumbprint = (New-SelfSignedCertificate -DnsName $hostname -CertStoreLocation "cert:\LocalMachine\My").Thumbprint
+if(-not $thumbprint)
+{
+    throw "Failed to create the test certificate."
+}
+
+# Configure WinRM
+$WinrmCreate= "winrm create --% winrm/config/Listener?Address=*+Transport=HTTPS @{Hostname=`"$hostname`";CertificateThumbprint=`"$thumbprint`"}"
+invoke-expression $WinrmCreate
+winrm set winrm/config/service/auth '@{Basic="true"}'
+
+netsh advfirewall firewall delete rule name="Windows Remote Management (HTTPS-In)" dir=in protocol=TCP localport=$winrmHttpsPort | Out-Null
+
+netsh advfirewall firewall add rule name="Windows Remote Management (HTTPS-In)" dir=in action=allow protocol=TCP localport=$winrmHttpsPort | Out-Null
+
+winrm enumerate winrm/config/listener

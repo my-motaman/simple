@@ -11,7 +11,7 @@ param
 Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
 #Step 3: Install tools / software
-choco install sql-server-2017 -y -v
+choco install sql-server-2017 -y -v --param"'/SECURITYMODE:SQL /SAPWD:Password.123'"
 choco install sql-server-management-studio -y -v 
 
 #Step 4: Enabling SQLServer default instance port 1433

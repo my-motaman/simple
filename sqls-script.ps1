@@ -16,7 +16,7 @@ param
 $folderpath="C:\Scripts"
 $inifile="$folderpath\ConfigurationFile.ini"
 # next line sets user as a SQL sysadmin
-$yourusername="it02\Vmadmin"
+$yourusername="SQLadmin"
 # path to the SQL media
 $SQLsource="D:"
 $SQLInstallDrive = "C:"

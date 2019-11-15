@@ -12,6 +12,7 @@ Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-E
 
 #Step 3: Install tools / software
 choco install sql-server-express -y -v
+choco install sql-server-management-studio -y -v 
 
 #Step 4: Enabling SQLServer default instance port 1433
 New-NetFirewallRule -DisplayName "Allow inbound TCP Port 1433" –Direction inbound –LocalPort 1433 -Protocol TCP -Action Allow

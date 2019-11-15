@@ -12,6 +12,7 @@ Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-E
 
 #Step 3: Install tools / software
 choco install sql-server-express -y -v
+refreshenv
 choco install sql-server-management-studio -y -v 
 
 #Step 4: Enabling SQLServer default instance port 1433

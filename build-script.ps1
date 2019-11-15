@@ -35,7 +35,7 @@ $agentFilename = Split-Path $agentUrl -leaf
 $agentSource = "$HOME\Downloads\$agentFilename"
 Write-Host $agentSource
 
-Invoke-WebRequest -Uri "$(agentUrl)" -OutFile "$agentSource"
+Invoke-WebRequest -Uri "$agentUrl" -OutFile "$agentSource"
 
 for($i=1; $i -le 1; $i++) {  
 $agentName = "$agentNamePrefix$i"

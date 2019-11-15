@@ -1,3 +1,9 @@
+param
+(
+    [string] $hostname,
+    [string] $protocol
+)
+
 #Step 1: Force TLS 1.2 to avoid network error
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
@@ -37,3 +43,5 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem ; [System.IO.Compression
 &"$agentDestination\$agentName\config.cmd" --unattended --url "$vstsUrl" --auth pat --token $vstsToken --pool $agentPool --agent $agentName --runAsService
 Get-CimInstance win32_service -filter "name='vstsagent.symphonyvsts.$agentPool.$agentName'" | Invoke-CimMethod -Name Change -Arguments @{StartName="LocalSystem"}	
 } 
+
+& ./config-script.ps1 $hostname $protocol

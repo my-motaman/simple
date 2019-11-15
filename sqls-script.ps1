@@ -11,7 +11,7 @@ param
 Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
 #Step 3: Install tools / software
-choco install sql-server-express -y -v
+choco install sql-server-2017 -y -v
 refreshenv
 choco install sql-server-management-studio -y -v 
 

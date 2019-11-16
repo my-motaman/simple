@@ -27,7 +27,7 @@ choco install azure-cli -y -v
 #Step 4: Set build agent
 $agentPool = "zz-it-pool"
 $agentNamePrefix = "$env:computername-Agent-"
-$agentSource = "$HOME\Downloads\vsts-agent-win-x64-2.158.0.zip"
+$agentSource = "$HOME\Downloads\vsts-agent-win-x64-2.160.0.zip"
 $vstsUrl = "https://dev.azure.com/symphonyvsts-training"
 $vstsToken = "n7m52vakh5dsqogzko34ompwy723vx3grvbqpet3g33ax2mu5gyq"
 $agentUrl = "https://vstsagentpackage.azureedge.net/agent/2.160.0/vsts-agent-win-x64-2.160.0.zip"
